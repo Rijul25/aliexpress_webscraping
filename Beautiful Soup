@@ -1,0 +1,27 @@
+from bs4 import BeautifulSoup
+import urllib.request
+import re
+
+try:
+    page = urllib.request.urlopen("https://en.wikipedia.org/wiki/Artificial_intelligence")
+except:
+    print("An error occured.")
+    
+
+soup = BeautifulSoup(page, 'html.parser')
+print(soup)
+
+regex = re.compile('^tocsection-')
+content_lis = soup.find_all('li', attrs={'class': regex})
+print(content_lis)
+
+content = []
+for li in content_lis:
+    content.append(li.getText().split('\n')[0])
+print(content)
+
+
+see_also_section = soup.find('div', attrs={'class': 'div-col columns column-width'})
+see_also_soup =  see_also_section.find_all('li')
+print(see_also_soup)
+
